@@ -19,6 +19,8 @@ modules <- c('BWA/0.7.15',
              'SAMtools/1.11-GCC-9.3.0',
              'R/4.0.0-foss-2020a')
 
+bam <- bams[7]
+bam <- bams[8]
 for(bam in bams){
   sample <- basename(gsub('.bam','',bam))
   job_name <- paste0(sample, '_realignBwa')
