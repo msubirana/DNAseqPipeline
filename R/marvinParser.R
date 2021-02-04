@@ -10,6 +10,10 @@
 #' @param email Email where to send notifications. By default 'clusterigtpmsubirana@gmail.com'
 #' @param modules List of modules to load. Check the once that you need using module av command in Marvin. 
 #' @param tmp_sh File where to save the sh script in the host. 
+#' @param stdout File where standard output output go. Standard output contains all the messages that your job 
+#' has sent to the standard output messages, i.e. anything you see written.
+#' @param stderr File where standard error output go. Standard error contains all the messages that your job has 
+#' sent to the error channel, i.e. “command not found”, “no such file or directory”…
 #' @examples
 #' \dontrun{}
 #' @export
@@ -20,7 +24,9 @@ marvinParser <- function(job_name,
                          email='clusterigtpmsubirana@gmail.com',
                          modules=NULL,
                          script,
-                         tmp_sh){
+                         tmp_sh,
+                         stdout,
+                         stderr){
   
   #TODO which partitions exist?
   #TODO log path
@@ -41,6 +47,10 @@ marvinParser <- function(job_name,
                 '#SBATCH --mail-type=BEGIN,END,FAIL\n', 
                 '# memory per CPU\n',
                 '#SBATCH --mem-per-cpu=', memory, '\n',
+                '# Standard output',
+                '#SBATCH -o ' paste0(stdout, '.out'),
+                '# Standard error',
+                '#SBATCH -e ', paste0(stderr, '.err'),  
                 '#load modules\n',
                 load_modules,
                 '\n#run application\n',
