@@ -31,12 +31,17 @@ for(bam in bams){
   email <- 'clusterigtpmsubirana@gmail.com'
   tmp_sh <- file.path('/home/msubirana', paste0(job_name,'.sh'))
   memory <- '30G'
+  stdout <- file.path(out_dir, job_name)
+  stderr <- file.path(out_dir, job_name)
+
   marvinParser(job_name=job_name,
                cores=cores,
                modules=modules,
                script=script,
                tmp_sh=tmp_sh,
-               memory=memory)
+               memory=memory,
+               stdout=stdout,
+               stderr=stderr)
 
 }
 
