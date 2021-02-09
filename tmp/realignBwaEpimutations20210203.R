@@ -12,15 +12,13 @@ bams_tmp <- unlist(strsplit(rawToChar(ls_output$stdout), '\n'))
 bams_tmp <- bams_tmp[grepl('.bam$', bams_tmp)]
 bams <- file.path(bam_path,bams_tmp)
 out_dir <- '/gpfs42/projects/lab_lpasquali/shared_data/marc/epimutations/raw/wgs/hg38'
-threads <- 16
+threads <- 8
 cores=threads/2
-modules <- c('BWA/0.7.15',
+modules <- c('BWA/0.7.17-foss-2016b',
              'samblaster/0.1.24-foss-2016b',
-             'SAMtools/1.11-GCC-9.3.0',
-             'R/4.0.0-foss-2020a')
+             'SAMtools/1.9-HTSlib-1.8-foss-2016b',
+             'R/3.4.2-foss-2016b')
 
-bam <- bams[7]
-bam <- bams[8]
 for(bam in bams){
   sample <- basename(gsub('.bam','',bam))
   job_name <- paste0(sample, '_realignBwa')
@@ -32,7 +30,7 @@ for(bam in bams){
 
   email <- 'clusterigtpmsubirana@gmail.com'
   tmp_sh <- file.path('/home/msubirana', paste0(job_name,'.sh'))
-  memory <- '30G'
+  memory <- '32G'
   stdout <- file.path(out_dir, job_name)
   stderr <- file.path(out_dir, job_name)
 
