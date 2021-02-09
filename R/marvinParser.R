@@ -66,7 +66,8 @@ marvinParser <- function(job_name,
   tmp_sh_marvin <- file.path('/gpfs42/projects/lab_lpasquali/shared_data/marc/tmp/marvinParserScripts', basename(tmp_sh))
 
   ssh_connection <- ssh::ssh_connect('msubirana@marvin.s.upf.edu')
-  ssh::ssh_exec_internal(ssh_connection, command = paste('sbatch', tmp_sh_marvin))
+  stdout <- ssh::ssh_exec_internal(ssh_connection, command = paste('sbatch', tmp_sh_marvin))
+  message(unlist(strsplit(rawToChar(stdout$stdout), '\n')))
 
 }
 
