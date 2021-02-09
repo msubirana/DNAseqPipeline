@@ -1,6 +1,7 @@
 #' marvinParser
 #'
 #' Parser for Marvin cluster
+#' Using this parser is possible to send jobs from host to Marvin cluster through ssh
 #' It is necessary generate a public and private key pair for an automatic scp
 #' @param cores Cores to use
 #' @param job_name Name of the job
@@ -15,7 +16,33 @@
 #' @param stderr File where standard error output go. Standard error contains all the messages that your job has
 #' sent to the error channel, i.e. “command not found”, “no such file or directory”…
 #' @examples
-#' \dontrun{}
+#' \dontrun{
+#' bam <- '/gpfs42/projects/lab_lpasquali/shared_data/marc/epimutations/raw/wgs/hg37/toDo/10759.bam'
+#' sample <- basename(gsub('.bam','',bam))
+#' job_name <- paste0(sample, '_realignBwa')
+#' script <- paste('Rscript /gpfs42/projects/lab_lpasquali/shared_data/marc/repos/DNAseqPipeline/tmp/realignBwaParser.R',
+#'                 bam,
+#'                 ref,
+#'                 out_dir,
+#'                 threads)
+#'
+#' email <- 'clusterigtpmsubirana@gmail.com'
+#' tmp_sh <- file.path('/home/msubirana', paste0(job_name,'.sh'))
+#' memory <- '32G'
+#' #' stdout <- file.path(out_dir, job_name)
+#' stderr <- file.path(out_dir, job_name)
+#'
+#' marvinParser(job_name=job_name,
+#'              cores=cores,
+#'              modules=modules,
+#'              script=script,
+#'              tmp_sh=tmp_sh,
+#'              memory=memory,
+#'              stdout=stdout,
+#'              stderr=stderr)
+#' }
+#'
+#' @return A job to Marvin cluster and the ib batch job as a message.
 #' @export
 marvinParser <- function(job_name,
                          cores=1,
