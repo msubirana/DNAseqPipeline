@@ -80,7 +80,7 @@ marvinParser <- function(job_name,
                 '#SBATCH -e ', paste0(stderr, '.err'), '\n',
                 '# load modules\n',
                 load_modules,
-                '\n#run application\n',
+                '\n# run application\n',
                 script)
 
   write(cmd,
