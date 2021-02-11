@@ -33,7 +33,7 @@ germlineStrelka2Manta <- function(bam,
         call_regions=call_regions)
 
   sample <- basename(sub('.bam' ,'' , bam))
-  out_manta <- file.path(out_dir, sample)
+  out_manta <- file.path(out_dir_manta, sample)
   indel_candidates <- file.path(out_manta, '/results/variants/candidateSmallIndels.vcf.gz')
 
   strelka2(bam=bam,
