@@ -1,6 +1,5 @@
 #load package
 library('DNAseqPipeline')
-
 #parse arguments
 args <- base::commandArgs(trailingOnly = TRUE)
 
@@ -8,11 +7,11 @@ args <- base::commandArgs(trailingOnly = TRUE)
 bam <- args[1]
 ref <- args[2]
 out_dir <- args[3]
-threads <- parallel::detectCores()
+cores <- parallel::detectCores()/2
 
 
 #realign BAMs using DNAseqPipeline::realignBwa
-realignBwa(bam=bam,
-           ref=ref,
-           out_dir=out_dir,
-           threads=threads)
+germlineStrelka2Manta(bam,
+                      ref=ref,
+                      out_dir=out_dir,
+                      cores=cores)
