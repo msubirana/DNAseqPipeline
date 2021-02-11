@@ -10,7 +10,7 @@
 #' @param conf_manta Manta 'configManta.py' path. By default 'configManta.py'
 #' @param conf_strelka2 Strelka2 'configureStrelkaGermlineWorkflow.py' path. By default 'configureStrelkaGermlineWorkflow.py'.
 #' @param call_regions Bed file of all the chromosomes that should be included in the analysis.
-#' For instance, the following bed file could be provided to exclude all decoys and small contigs.
+#' For instance, the following bed file could be provided to exclude all decoys and small contigs. File should be bgzip and tabix.
 #' By default '/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed'
 #' @examples
 #' \dontrun{}
@@ -22,7 +22,7 @@ germlineStrelka2Manta <- function(bam,
                                   cores,
                                   conf_manta='configManta.py',
                                   conf_strelka2='configureStrelkaGermlineWorkflow.py',
-                                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed'){
+                                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed.gz'){
 
 
   manta(bam=bam,
@@ -61,7 +61,7 @@ manta <- function(bam,
                   out_dir_manta,
                   cores,
                   conf_manta='configManta.py',
-                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed'){
+                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed.gz'){
 
   message(paste(
     paste0('\n[', Sys.time(), ']'),
@@ -111,7 +111,7 @@ strelka2 <- function(bam,
                   out_dir_strelka2,
                   cores,
                   conf_strelka2='configureStrelkaGermlineWorkflow.py',
-                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed',
+                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed.gz',
                   indel_candidates){
 
   message(paste(
