@@ -1,10 +1,10 @@
 #' realignBwa
 #'
-#' Convert paired-end bam files to fastqs and then realign with bwa mem   
+#' Convert paired-end bam files to fastqs and then realign with bwa mem
 #'
 #' @param bam Paired-end BAM file to realign
 #' @param threads Number of threads to use in the analysis.
-#' @param ref Reference genome (ref.fa) to use for the alignment. 
+#' @param ref Reference genome (ref.fa) to use for the alignment.
 #' @param platform Platforme used in the sequecing process. By default 'ILLUMINA'.
 #' @param bwa Path to the executable bwa. By default 'bwa'.
 #' @param samtools Path to the executable bwa. By default 'samtools'.
@@ -30,7 +30,7 @@ realignBwa <- function(bam,
                        samtools='samtools',
                        samblaster='samblaster'
                        ){
-  
+
   message(paste(
     paste0('\n[', Sys.time(), ']'),
     'Starting realignBwa using:\n',
@@ -38,10 +38,9 @@ realignBwa <- function(bam,
     '> Reference genome:', ref, '\n',
     '> Output directory:', out_dir, '\n',
     '> Number of threads:', threads, '\n',
-    '> Output directory:', out_dir, '\n',
     '> Output directory:', out_dir, '\n'))
-    
-    
+
+
   sample <- basename(sub('.bam' ,'' , bam))
   temp <- file.path(out_dir,'temp')
   dir.create(temp, showWarnings = FALSE)
@@ -52,7 +51,7 @@ realignBwa <- function(bam,
         samblaster, '|', #markduplicates
         samtools, 'sort -@', threads, '-T', temp, '-o', file.path(out_dir, paste0(sample, '_out_sorted_markdup.bam')), ";",
         samtools, 'index -@', threads, file.path(out_dir, paste0(sample, '_out_sorted_markdup.bam'))))
-  
+
   message(paste(
     paste0('\n[', Sys.time(), ']'),
     'Finished', bam))
