@@ -1,5 +1,6 @@
 #load package
-library('DNAseqPipeline')
+devtools::load_all('/gpfs42/projects/lab_lpasquali/shared_data/marc/repos/DNAseqPipeline')
+
 #parse arguments
 args <- base::commandArgs(trailingOnly = TRUE)
 
