@@ -4,7 +4,8 @@
 #'
 #' @param bam BAM file to use in the analysis
 #' @param ref Reference fasta genome. By default '/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/hg38.fa'
-#' @param out_dir Path where the output of the analysis will be saved.
+#' @param out_dir_manta Path where the output of the Manta analysis will be saved.
+#' @param out_dir_strelka2 Path where the output of the Strelka2 analysis will be saved.
 #' @param cores Number of cores to use.
 #' @param conf_manta Manta 'configManta.py' path. By default 'configManta.py'
 #' @param conf_strelka2 Strelka2 'configureStrelkaGermlineWorkflow.py' path. By default 'configureStrelkaGermlineWorkflow.py'.
@@ -16,32 +17,33 @@
 #' @export
 germlineStrelka2Manta <- function(bam,
                                   ref='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/hg38.fa',
-                                  out_dir,
+                                  out_dir_manta,
+                                  out_dir_strelka2,
                                   cores,
                                   conf_manta='configManta.py',
                                   conf_strelka2='configureStrelkaGermlineWorkflow.py',
                                   call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed'){
-  
-  
+
+
   manta(bam=bam,
         ref=ref,
-        out_dir=out_dir,
+        out_dir_manta=out_dir_manta,
         cores=cores,
         conf_manta=conf_manta,
         call_regions=call_regions)
-  
+
   sample <- basename(sub('.bam' ,'' , bam))
   out_manta <- file.path(out_dir, sample)
   indel_candidates <- file.path(out_manta, '/results/variants/candidateSmallIndels.vcf.gz')
-  
+
   strelka2(bam=bam,
            ref=ref,
-           out_dir=out_dir,
+           out_dir_strelka2=out_dir_strelka2,
            cores=cores,
            conf_strelka2=conf_strelka2,
            call_regions=call_regions,
            indel_candidates=indel_candidates)
-      
+
 }
 
 #' manta
@@ -50,46 +52,46 @@ germlineStrelka2Manta <- function(bam,
 #' SVs calling of paired tumor-normal wgs using manta
 #'
 #' @inheritParams germlineStrelka2Manta
-#' 
+#'
 #' @examples
 #' \dontrun{}
 #' @export
 manta <- function(bam,
                   ref,
-                  out_dir,
+                  out_dir_manta,
                   cores,
                   conf_manta='configManta.py',
                   call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed'){
-  
+
   message(paste(
     paste0('\n[', Sys.time(), ']'),
     'Starting manta using:\n',
     '> BAM file:\n', bam, '\n',
     '> Reference genome:', ref, '\n',
-    '> Output directory:', out_dir, '\n',
+    '> Output directory:', out_dir_manta, '\n',
     '> Number of cores:', cores, '\n'))
-  
+
   sample <- basename(sub('.bam' ,'' , bam))
-  
+
   # configuration
-  out_manta <- file.path(out_dir, sample)
-  
+  out_manta <- file.path(out_dir_manta, sample)
+
   # create output directory if not exist
   dir.create(out_manta, showWarnings = FALSE)
-  
+
   system(paste(conf_manta,
                '--bam', bam,
                '--referenceFasta', ref,
                '--runDir', out_manta,
                '--callRegions', call_regions))
-  
+
   # execution of job in the defined cores
   run_manta <- file.path(out_manta, 'runWorkflow.py')
-  
+
   system(paste(run_manta,
                '-m local',
                '-j', cores))
-  
+
   message(paste(
     paste0('\n[', Sys.time(), ']'),
     'Finished', bam))
@@ -106,28 +108,28 @@ manta <- function(bam,
 #' @export
 strelka2 <- function(bam,
                   ref,
-                  out_dir,
+                  out_dir_strelka2,
                   cores,
                   conf_strelka2='configManta.py',
                   call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed',
                   indel_candidates){
-  
+
   message(paste(
     paste0('\n[', Sys.time(), ']'),
     'Starting strelka2 using:\n',
     '> BAM file:\n', bam, '\n',
     '> Reference genome:', ref, '\n',
-    '> Output directory:', out_dir, '\n',
+    '> Output directory:', out_dir_strelka2, '\n',
     '> Number of cores:', cores, '\n',
     '> Indel candidates:', indel_candidates, '\n'))
-  
+
   sample <- basename(sub('.bam' ,'' , bam))
-  
+
   # configuration
-  out_strelka2 <- file.path(out_dir, sample)
+  out_strelka2 <- file.path(out_dir_strelka2, sample)
   # create output directory if not exist
   dir.create(out_strelka2, showWarnings = FALSE)
-  
+
   system(paste(conf_strelka2,
                '--bam', bam,
                '--referenceFasta', ref,
@@ -135,14 +137,14 @@ strelka2 <- function(bam,
                '--callRegions', call_regions,
                '--indelCandidates', indel_candidates,
                '--callRegions', call_regions))
-  
+
   # execution of job in the defined cores
   run_strelka2 <- file.path(out_strelka2, 'runWorkflow.py')
-  
+
   system(paste(run_strelka2,
                '-m local',
                '-j', cores))
-  
+
   message(paste(
     paste0('\n[', Sys.time(), ']'),
     'Finished', bam))

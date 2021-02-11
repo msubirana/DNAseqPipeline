@@ -6,7 +6,8 @@ args <- base::commandArgs(trailingOnly = TRUE)
 #define variables
 bam <- args[1]
 ref <- args[2]
-out_dir <- args[3]
+out_dir_manta <- args[3]
+out_dir_strelka <- args[4]
 cores <- parallel::detectCores()/2
 
 
@@ -14,4 +15,6 @@ cores <- parallel::detectCores()/2
 germlineStrelka2Manta(bam,
                       ref=ref,
                       out_dir=out_dir,
-                      cores=cores)
+                      cores=cores,
+                      out_dir_manta=out_dir_manta,
+                      out_dir_strelka2=out_dir_strelka2)
