@@ -110,7 +110,7 @@ strelka2 <- function(bam,
                   ref,
                   out_dir_strelka2,
                   cores,
-                  conf_strelka2='configManta.py',
+                  conf_strelka2='configureStrelkaGermlineWorkflow.py',
                   call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed',
                   indel_candidates){
 

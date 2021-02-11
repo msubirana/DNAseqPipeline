@@ -12,7 +12,7 @@ out_dir_strelka <- args[4]
 cores <- parallel::detectCores()/2
 
 
-#realign BAMs using DNAseqPipeline::realignBwa
+#calling varianyts using DNAseqPipeline::germlineStrelka2Manta
 germlineStrelka2Manta(bam,
                       ref=ref,
                       cores=cores,
