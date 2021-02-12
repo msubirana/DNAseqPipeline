@@ -21,17 +21,16 @@ germlineStrelka2Manta <- function(bam,
                                   out_dir_strelka2,
                                   cores,
                                   conf_manta='configManta.py',
-                                  conf_strelka2='configureStrelkaGermlineWorkflow.py'){
-  #call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed.gz'
+                                  conf_strelka2='configureStrelkaGermlineWorkflow.py',
+                                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed.gz'){
 
 
   manta(bam=bam,
         ref=ref,
         out_dir_manta=out_dir_manta,
         cores=cores,
-        conf_manta=conf_manta)
-
-  #call_regions=call_regions
+        conf_manta=conf_manta,
+        call_regions=call_regions)
 
   sample <- basename(sub('.bam' ,'' , bam))
   out_manta <- file.path(out_dir_manta, sample)
@@ -42,9 +41,8 @@ germlineStrelka2Manta <- function(bam,
            out_dir_strelka2=out_dir_strelka2,
            cores=cores,
            conf_strelka2=conf_strelka2,
+           call_regions=call_regions,
            indel_candidates=indel_candidates)
-
-  #           call_regions=call_regions,
 
 }
 
@@ -62,9 +60,9 @@ manta <- function(bam,
                   ref,
                   out_dir_manta,
                   cores,
-                  conf_manta='configManta.py'){
+                  conf_manta='configManta.py',
+                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed.gz'){
 
-  #call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed.gz'
   message(paste(
     paste0('\n[', Sys.time(), ']'),
     'Starting manta using:\n',
@@ -84,8 +82,8 @@ manta <- function(bam,
   system(paste(conf_manta,
                '--bam', bam,
                '--referenceFasta', ref,
-               '--runDir', out_manta))
-  #--callRegions', call_regions
+               '--runDir', out_manta,
+               '--callRegions', call_regions))
 
   # execution of job in the defined cores
   run_manta <- file.path(out_manta, 'runWorkflow.py')
@@ -113,9 +111,9 @@ strelka2 <- function(bam,
                   out_dir_strelka2,
                   cores,
                   conf_strelka2='configureStrelkaGermlineWorkflow.py',
+                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed.gz',
                   indel_candidates){
 
-  #call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed.gz'
   message(paste(
     paste0('\n[', Sys.time(), ']'),
     'Starting strelka2 using:\n',
@@ -136,9 +134,9 @@ strelka2 <- function(bam,
                '--bam', bam,
                '--referenceFasta', ref,
                '--runDir', out_strelka2,
-               '--indelCandidates', indel_candidates))
-
-  #'--callRegions', call_regions
+               '--callRegions', call_regions,
+               '--indelCandidates', indel_candidates,
+               '--callRegions', call_regions))
 
   # execution of job in the defined cores
   run_strelka2 <- file.path(out_strelka2, 'runWorkflow.py')
