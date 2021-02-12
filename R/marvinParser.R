@@ -57,6 +57,7 @@ marvinParser <- function(job_name,
 
   #TODO which partitions exist?
   #TODO log path
+  # solve problem with host-marvin connection
   # define tmp file for running in SGE
   if (!is.null(modules)){
     load_modules <- paste('module load', modules, collapse = '\n')}
@@ -82,7 +83,6 @@ marvinParser <- function(job_name,
                 load_modules,
                 '\n# run application\n',
                 script)
-
   write(cmd,
         file=tmp_sh)
 
