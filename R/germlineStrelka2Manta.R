@@ -21,16 +21,17 @@ germlineStrelka2Manta <- function(bam,
                                   out_dir_strelka2,
                                   cores,
                                   conf_manta='configManta.py',
-                                  conf_strelka2='configureStrelkaGermlineWorkflow.py',
-                                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed.gz'){
+                                  conf_strelka2='configureStrelkaGermlineWorkflow.py'){
+  #call_regions='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/GRCh38_exclude_decoys_small_contigs.bed.gz'
 
 
   manta(bam=bam,
         ref=ref,
         out_dir_manta=out_dir_manta,
         cores=cores,
-        conf_manta=conf_manta,
-        call_regions=call_regions)
+        conf_manta=conf_manta)
+
+  #call_regions=call_regions
 
   sample <- basename(sub('.bam' ,'' , bam))
   out_manta <- file.path(out_dir_manta, sample)
@@ -40,9 +41,10 @@ germlineStrelka2Manta <- function(bam,
            ref=ref,
            out_dir_strelka2=out_dir_strelka2,
            cores=cores,
-           conf_strelka2=conf_strelka2,
-           call_regions=call_regions,
+           conf_strelka2=conf_strelka2
            indel_candidates=indel_candidates)
+
+  #           call_regions=call_regions,
 
 }
 
