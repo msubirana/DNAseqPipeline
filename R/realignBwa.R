@@ -60,7 +60,7 @@ realignBwa <- function(bam,
         paste0("-R \"@RG\\tID:",sample,"\\tPL:",platform,"\\tPU:1\\tSM:", sample,"\""),
         ref, fq1, fq2, '|',
         samblaster, '-M |', #markduplicates
-        samtools, 'view -Sb -@', threads, '- |'
+        samtools, 'view -Sb -@', threads, '- |',
         samtools, 'sort -@', threads, '-T', temp, '-o', file.path(out_dir, paste0(sample, '.bam')), ";",
         samtools, 'index -@', threads, file.path(out_dir, paste0(sample, '.bam'))))
 
