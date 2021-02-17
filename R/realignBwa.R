@@ -22,7 +22,7 @@
 #'}
 #' @export
 realignBwa <- function(bam,
-                       ref,
+                       ref='/gpfs42/projects/lab_lpasquali/shared_data/ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fa',
                        out_dir,
                        threads=1,
                        temp=file.path(out_dir,'temp'),
