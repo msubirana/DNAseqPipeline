@@ -56,7 +56,6 @@ marvinParser <- function(job_name,
                          stderr){
 
   #TODO which partitions exist?
-  #TODO log path
   # solve problem with host-marvin connection
   # define tmp file for running in SGE
   if (!is.null(modules)){
@@ -93,11 +92,16 @@ marvinParser <- function(job_name,
   tmp_sh_marvin <- file.path('/gpfs42/projects/lab_lpasquali/shared_data/marc/tmp/marvinParserScripts', basename(tmp_sh))
 
   ssh_connection <- ssh::ssh_connect('msubirana@marvin.s.upf.edu')
-  stdout <- ssh::ssh_exec_internal(ssh_connection, command = paste('sbatch', tmp_sh_marvin))
+
+  cmd_ssh <- paste(
+    "for i in /etc/profile.d/*.sh; do
+    if [ -r $i ]; then
+      . $i
+    fi
+  done\n",
+    paste('sbatch', tmp_sh_marvin))
+
+  stdout <- ssh::ssh_exec_internal(ssh_connection, command = cmd_ssh)
   message(unlist(strsplit(rawToChar(stdout$stdout), '\n')))
 
 }
-
-
-
-
