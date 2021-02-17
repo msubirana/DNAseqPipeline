@@ -16,7 +16,7 @@
 #' \dontrun{}
 #' @export
 germlineStrelka2Manta <- function(bam,
-                                  ref='/gpfs42/projects/lab_lpasquali/shared_data/marc/ref/hg38/hg38.fa',
+                                  ref='/gpfs42/projects/lab_lpasquali/shared_data/ref/GCA_000001405.15_GRCh38_no_alt_analysis_set.fa',
                                   out_dir_manta,
                                   out_dir_strelka2,
                                   cores,
