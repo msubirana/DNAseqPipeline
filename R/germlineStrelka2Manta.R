@@ -36,8 +36,26 @@ germlineStrelka2Manta <- function(bam,
            ref=ref,
            out_dir_strelka2=out_dir_strelka2,
            cores=cores,
-           conf_strelka2=conf_strelka2,
-           call_regions=call_regions)
+           conf_strelka2=conf_strelka2¡)
+
+  candidateSmallIndels.vcf.gz      candidateSV.vcf.gz               diploidSV.vcf.gz
+  candidateSmallIndels.vcf.gz.tbi  candidateSV.vcf.gz.tbi           diploidSV.vcf.gz.tbi
+
+  vcf_path_manta <- file.path(out_dir_manta, 'results/variants/')
+  vcf_files_manta <- ssh::ssh_exec_internal(ssh_connection, command = paste('ls', vcf_path_manta))
+  vcf_files_manta <- unlist(strsplit(rawToChar(vcf_files_manta$stdout), '\n'))
+  vcf_files_manta <- file.path(vcf_path_manta, vcf_files_manta)
+  new_vcf_files_manta <- paste0(sample, '_', vcf_files_manta)
+  new_vcf_files_manta <- file.path(vcf_path_manta, new_vcf_files_manta)
+  file.rename(vcf_files_manta, new_vcf_files_manta)
+
+  vcf_path_strelka2 <- file.path(out_dir_strelka2, 'results/variants/')
+  vcf_files_strelka2 <- ssh::ssh_exec_internal(ssh_connection, command = paste('ls', vcf_path_strelka2))
+  vcf_files_strelka2 <- unlist(strsplit(rawToChar(vcf_files_strelka2$stdout), '\n'))
+  vcf_files_strelka2 <- file.path(vcf_path_strelka2, vcf_files_strelka2)
+  new_vcf_files_strelka2 <- paste0(sample, '_', vcf_files_strelka2)
+  new_vcf_files_strelka2 <- file.path(vcf_path_strelka2, new_vcf_files_strelka2)
+  file.rename(vcf_files_strelka2, new_vcf_files_strelka2)
 
 }
 
