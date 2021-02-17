@@ -9,6 +9,7 @@
 #' @param bwa Path to the executable bwa. By default 'bwa'.
 #' @param samtools Path to the executable bwa. By default 'samtools'.
 #' @param samblaster Path to the executable bwa. By default 'samblaster'.
+#' @param gatk Path to the executable gatk By default '/gpfs42/projects/lab_lpasquali/shared_data/marc/repos/gatk-4.1.9.0/gatk'.
 #' @examples
 #' \dontrun{
 #' bam <- '/media/msubirana/insulinomas/epimutations/processed/hg37/bam/longranges/wgs/sub_10759.bam'
@@ -28,7 +29,8 @@ realignBwa <- function(bam,
                        platform='ILLUMINA',
                        bwa='bwa',
                        samtools='samtools',
-                       samblaster='samblaster'
+                       samblaster='samblaster',
+                       gatk='/gpfs42/projects/lab_lpasquali/shared_data/marc/repos/gatk-4.1.9.0/gatk'
                        ){
 
   message(paste(
@@ -44,13 +46,23 @@ realignBwa <- function(bam,
   sample <- basename(sub('.bam' ,'' , bam))
   temp <- file.path(out_dir,'temp')
   dir.create(temp, showWarnings = FALSE)
-  system(paste(samtools, 'bam2fq -@', threads, bam, '|',  #bam to fq
-        bwa, 'mem -p -t', threads, # align bam
+  fq1 <- sub('.bam' ,'_R1.fq' , bam)
+  fq2 <- sub('.bam' ,'_R2.fq' , bam)
+
+  system(paste0(gatk,
+                '--java-options -XX:ParallelGCThreads=',threads,
+                'SamToFastq ',
+                '-I ', bam,
+                '-F ', fq1,
+                '-F2', fq2))
+
+  system(paste(bwa, 'mem -M -t', threads, # align bam
         paste0("-R \"@RG\\tID:",sample,"\\tPL:",platform,"\\tPU:1\\tSM:", sample,"\""),
-        ref,' - |',
-        samblaster, '|', #markduplicates
-        samtools, 'sort -@', threads, '-T', temp, '-o', file.path(out_dir, paste0(sample, '_out_sorted_markdup.bam')), ";",
-        samtools, 'index -@', threads, file.path(out_dir, paste0(sample, '_out_sorted_markdup.bam'))))
+        ref fq1 fq2, '|',
+        samblaster, '-M |', #markduplicates
+        samtools, 'view -Sb -@', threads, '- |'
+        samtools, 'sort -@', threads, '-T', temp, '-o', file.path(out_dir, paste0(sample, '.bam')), ";",
+        samtools, 'index -@', threads, file.path(out_dir, paste0(sample, '.bam'))))
 
   message(paste(
     paste0('\n[', Sys.time(), ']'),
