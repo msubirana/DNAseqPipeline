@@ -49,11 +49,11 @@ realignBwa <- function(bam,
   fq1 <- sub('.bam' ,'_R1.fq' , bam)
   fq2 <- sub('.bam' ,'_R2.fq' , bam)
 
-  system(paste0(gatk,
-                ' --java-options -XX:ParallelGCThreads=',threads,
-                ' SamToFastq ',
-                '-I ', bam,
-                '-F ', fq1,
+  system(paste(gatk,
+                paste0('--java-options -XX:ParallelGCThreads=', threads),
+                'SamToFastq',
+                '-I', bam,
+                '-F', fq1,
                 '-F2', fq2))
 
   system(paste(bwa, 'mem -M -t', threads, # align bam
