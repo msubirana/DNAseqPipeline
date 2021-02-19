@@ -97,7 +97,7 @@ marvinParser <- function(job_name,
 
   ssh_connection <- ssh::ssh_connect('msubirana@marvin.s.upf.edu')
 
-  cmd_ssh <- paste('sbatch', tmp_sh_marvin))
+  cmd_ssh <- paste('sbatch', tmp_sh_marvin)
 
   stdout <- ssh::ssh_exec_internal(ssh_connection, command = cmd_ssh)
   message(unlist(strsplit(rawToChar(stdout$stdout), '\n')))
