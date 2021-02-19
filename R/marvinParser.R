@@ -15,6 +15,7 @@
 #' has sent to the standard output messages, i.e. anything you see written.
 #' @param stderr File where standard error output go. Standard error contains all the messages that your job has
 #' sent to the error channel, i.e. “command not found”, “no such file or directory”…
+#' @param nodes Number of nodes
 #' @examples
 #' \dontrun{
 #' bam <- '/gpfs42/projects/lab_lpasquali/shared_data/marc/epimutations/raw/wgs/hg37/toDo/10759.bam'
@@ -50,6 +51,7 @@ marvinParser <- function(job_name,
                          memory='8G',
                          email='clusterigtpmsubirana@gmail.com',
                          modules=NULL,
+                         nodes=1,
                          script,
                          tmp_sh,
                          stdout,
@@ -66,8 +68,10 @@ marvinParser <- function(job_name,
                 '#SBATCH -J ', job_name, '\n',
                 '# set the partition where the job will run\n',
                 '#SBATCH --partition=', partition,'\n',
+                '# Number of nodes\n',
+                '#SBATCH -N=', nodes, '\n',
                 '# Number of cores\n',
-                '#SBATCH -n', cores, '\n',
+                '#SBATCH --cpus-per-task=', cores, '\n',
                 '# Send an email if the job\n',
                 '#SBATCH --mail-user=', email, '\n',
                 '#+ starts / ends / fails\n',
