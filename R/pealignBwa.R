@@ -32,8 +32,7 @@ pealignBwa <- function(fq1,
                        platform='ILLUMINA',
                        bwa='bwa',
                        samtools='samtools',
-                       samblaster='samblaster',
-){
+                       samblaster='samblaster'){
   
   message(paste(
     paste0('\n[', Sys.time(), ']'),
