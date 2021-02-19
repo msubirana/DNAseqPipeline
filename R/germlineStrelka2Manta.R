@@ -38,9 +38,6 @@ germlineStrelka2Manta <- function(bam,
            cores=cores,
            conf_strelka2=conf_strelka)
 
-  candidateSmallIndels.vcf.gz      candidateSV.vcf.gz               diploidSV.vcf.gz
-  candidateSmallIndels.vcf.gz.tbi  candidateSV.vcf.gz.tbi           diploidSV.vcf.gz.tbi
-
   vcf_path_manta <- file.path(out_dir_manta, 'results/variants/')
   vcf_files_manta <- ssh::ssh_exec_internal(ssh_connection, command = paste('ls', vcf_path_manta))
   vcf_files_manta <- unlist(strsplit(rawToChar(vcf_files_manta$stdout), '\n'))
