@@ -33,7 +33,7 @@ pealignBwa <- function(fq1,
                        bwa='bwa',
                        samtools='samtools',
                        samblaster='samblaster'){
-  
+
   message(paste(
     paste0('\n[', Sys.time(), ']'),
     'Starting pealignBwa using:\n',
@@ -43,8 +43,8 @@ pealignBwa <- function(fq1,
     '> Output directory:', out_dir, '\n',
     '> Number of threads:', threads, '\n',
     '> Output directory:', out_dir, '\n'))
-  
-  sample <- basename(gsub("\\..*","",fq1))
+
+  sample <- basename(gsub("\\_R1*","",fq1))
   temp <- file.path(out_dir,'temp')
   dir.create(temp, showWarnings = FALSE)
 
@@ -55,10 +55,10 @@ pealignBwa <- function(fq1,
                samtools, 'view -Sb -@', threads, '- |',
                samtools, 'sort -@', threads, '-T', temp, '-o', file.path(out_dir, paste0(sample, '.bam')), ";",
                samtools, 'index -@', threads, file.path(out_dir, paste0(sample, '.bam'))))
-  
+
   message(paste(
     paste0('\n[', Sys.time(), ']'),
-    'Finished', bam))
-  
+    'Finished', sample))
+
 }
 
