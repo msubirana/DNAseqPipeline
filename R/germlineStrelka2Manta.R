@@ -23,7 +23,7 @@ germlineStrelka2Manta <- function(bam,
                                   out_dir_strelka2,
                                   cores,
                                   conf_manta='configManta.py',
-                                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/ref/callRegions.bed.gz'
+                                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/ref/callRegions.bed.gz',
                                   conf_strelka2='configureStrelkaGermlineWorkflow.py'){
 
 
