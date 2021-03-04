@@ -9,6 +9,7 @@ bam <- args[1]
 ref <- args[2]
 out_dir_manta <- args[3]
 out_dir_strelka <- args[4]
+call_regions <- args[5]
 cores <- parallel::detectCores()/2
 
 
@@ -17,4 +18,5 @@ germlineStrelka2Manta(bam,
                       ref=ref,
                       cores=cores,
                       out_dir_manta=out_dir_manta,
-                      out_dir_strelka2=out_dir_strelka2)
+                      out_dir_strelka2=out_dir_strelka2,
+                      call_regions=call_regions)
