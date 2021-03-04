@@ -8,6 +8,10 @@
 #' @param out_dir_strelka2 Path where the output of the Strelka2 analysis will be saved.
 #' @param cores Number of cores to use.
 #' @param conf_manta Manta 'configManta.py' path. By default 'configManta.py'
+#' @param call_regions Manta calls the entire genome by default, however variant calling may be restricted to an arbitrary subset of
+#' the genome by providing a region file in BED format with the --callRegions configuration option. The BED file must be bgzip-compressed
+#' and tabix-indexed, and only one such BED file may be specified. When specified, all VCF output is restricted to the provided call regions only,
+#' however statistics derived from the input data
 #' @param conf_strelka2 Strelka2 'configureStrelkaGermlineWorkflow.py' path. By default 'configureStrelkaGermlineWorkflow.py'.
 #' @examples
 #' \dontrun{}
@@ -19,6 +23,7 @@ germlineStrelka2Manta <- function(bam,
                                   out_dir_strelka2,
                                   cores,
                                   conf_manta='configManta.py',
+                                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/ref/callRegions.bed.gz'
                                   conf_strelka2='configureStrelkaGermlineWorkflow.py'){
 
 
@@ -26,7 +31,8 @@ germlineStrelka2Manta <- function(bam,
         ref=ref,
         out_dir_manta=out_dir_manta,
         cores=cores,
-        conf_manta=conf_manta)
+        conf_manta=conf_manta,
+        call_regions=call_regions)
 
   sample <- basename(sub('.bam' ,'' , bam))
   out_manta <- file.path(out_dir_manta, sample)
@@ -36,7 +42,8 @@ germlineStrelka2Manta <- function(bam,
            ref=ref,
            out_dir_strelka2=out_dir_strelka2,
            cores=cores,
-           conf_strelka2=conf_strelka)
+           conf_strelka2=conf_strelka,
+           call_regions=call_regions)
 
   vcf_path_manta <- file.path(out_dir_manta, 'results/variants/')
   vcf_files_manta <- ssh::ssh_exec_internal(ssh_connection, command = paste('ls', vcf_path_manta))
@@ -70,7 +77,8 @@ manta <- function(bam,
                   ref,
                   out_dir_manta,
                   cores,
-                  conf_manta='configManta.py'){
+                  conf_manta='configManta.py',
+                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/ref/callRegions.bed.gz'){
 
   message(paste(
     paste0('\n[', Sys.time(), ']'),
@@ -91,6 +99,7 @@ manta <- function(bam,
   system(paste(conf_manta,
                '--bam', bam,
                '--referenceFasta', ref,
+               '--callRegions', call_regions,
                '--runDir', out_manta))
 
   # execution of job in the defined cores
@@ -119,7 +128,8 @@ strelka2 <- function(bam,
                   out_dir_strelka2,
                   cores,
                   conf_strelka2='configureStrelkaGermlineWorkflow.py',
-                  indel_candidates){
+                  indel_candidates,
+                  call_regions='/gpfs42/projects/lab_lpasquali/shared_data/ref/callRegions.bed.gz'){
 
   message(paste(
     paste0('\n[', Sys.time(), ']'),
@@ -141,7 +151,8 @@ strelka2 <- function(bam,
                '--bam', bam,
                '--referenceFasta', ref,
                '--runDir', out_strelka2,
-               '--indelCandidates', indel_candidates))
+               '--indelCandidates', indel_candidates,
+               '--callRegions', call_regions))
 
   # execution of job in the defined cores
   run_strelka2 <- file.path(out_strelka2, 'runWorkflow.py')
