@@ -8,7 +8,7 @@ args <- base::commandArgs(trailingOnly = TRUE)
 bam <- args[1]
 ref <- args[2]
 out_dir_manta <- args[3]
-out_dir_strelka <- args[4]
+out_dir_strelka2 <- args[4]
 call_regions <- args[5]
 cores <- parallel::detectCores()/2
 
