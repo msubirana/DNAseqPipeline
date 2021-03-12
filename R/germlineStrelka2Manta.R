@@ -36,14 +36,15 @@ germlineStrelka2Manta <- function(bam,
 
   sample <- basename(sub('.bam' ,'' , bam))
   out_manta <- file.path(out_dir_manta, sample)
-  indel_candidates <- file.path(out_manta, '/results/variants/candidateSmallIndels.vcf.gz')
+  indel_candidates <- file.path(out_manta, 'results/variants/candidateSmallIndels.vcf.gz')
 
   strelka2(bam=bam,
            ref=ref,
            out_dir_strelka2=out_dir_strelka2,
            cores=cores,
            conf_strelka2=conf_strelka,
-           call_regions=call_regions)
+           call_regions=call_regions,
+           indel_candidates=indel_candidates)
 
   vcf_path_manta <- file.path(out_dir_manta, 'results/variants/')
   vcf_files_manta <- ssh::ssh_exec_internal(ssh_connection, command = paste('ls', vcf_path_manta))
