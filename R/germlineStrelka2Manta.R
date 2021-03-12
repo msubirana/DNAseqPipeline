@@ -42,7 +42,7 @@ germlineStrelka2Manta <- function(bam,
            ref=ref,
            out_dir_strelka2=out_dir_strelka2,
            cores=cores,
-           conf_strelka2=conf_strelka,
+           conf_strelka2=conf_strelka2,
            call_regions=call_regions,
            indel_candidates=indel_candidates)
 
