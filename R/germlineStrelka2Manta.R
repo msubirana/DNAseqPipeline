@@ -27,43 +27,24 @@ germlineStrelka2Manta <- function(bam,
                                   conf_strelka2='configureStrelkaGermlineWorkflow.py'){
 
 
-  # manta(bam=bam,
-  #       ref=ref,
-  #       out_dir_manta=out_dir_manta,
-  #       cores=cores,
-  #       conf_manta=conf_manta,
-  #       call_regions=call_regions)
+  manta(bam=bam,
+        ref=ref,
+        out_dir_manta=out_dir_manta,
+        cores=cores,
+        conf_manta=conf_manta,
+        call_regions=call_regions)
 
   sample <- basename(sub('.bam' ,'' , bam))
   out_manta <- file.path(out_dir_manta, sample)
   indel_candidates <- file.path(out_manta, 'results/variants/candidateSmallIndels.vcf.gz')
 
-  # strelka2(bam=bam,
-  #          ref=ref,
-  #          out_dir_strelka2=out_dir_strelka2,
-  #          cores=cores,
-  #          conf_strelka2=conf_strelka2,
-  #          call_regions=call_regions,
-  #          indel_candidates=indel_candidates)
-
-  out_strelka2 <- file.path(out_dir_strelka2, sample)
-
-  ssh_connection <- ssh::ssh_connect('msubirana@marvin.s.upf.edu')
-
-  vcf_path_manta <- file.path(out_manta, 'results/variants')
-  vcf_files_manta <- ssh::ssh_exec_internal(ssh_connection, command = paste('ls', vcf_path_manta))
-  vcf_files_manta <- unlist(strsplit(rawToChar(vcf_files_manta$stdout), '\n'))
-  vcf_files_manta <- file.path(vcf_path_manta, vcf_files_manta)
-  new_vcf_files_manta <- file.path(dirname(vcf_files_manta), paste0(sample, "_", basename(vcf_files_manta)))
-  file.rename(vcf_files_manta, new_vcf_files_manta)
-
-  vcf_path_strelka2 <- file.path(out_strelka2, 'results/variants')
-  vcf_files_strelka2 <- ssh::ssh_exec_internal(ssh_connection, command = paste('ls', vcf_path_strelka2))
-  vcf_files_strelka2 <- unlist(strsplit(rawToChar(vcf_files_strelka2$stdout), '\n'))
-  vcf_files_strelka2 <- file.path(vcf_path_strelka2, vcf_files_strelka2)
-  new_vcf_files_strelka2 <- file.path(dirname(vcf_files_strelka2), paste0(sample, "_", basename(vcf_files_strelka2)))
-  file.rename(vcf_files_strelka2, new_vcf_files_strelka2)
-
+  strelka2(bam=bam,
+           ref=ref,
+           out_dir_strelka2=out_dir_strelka2,
+           cores=cores,
+           conf_strelka2=conf_strelka2,
+           call_regions=call_regions,
+           indel_candidates=indel_candidates)
 }
 
 #' manta
