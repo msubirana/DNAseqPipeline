@@ -3,5 +3,7 @@
 export(germlineStrelka2Manta)
 export(manta)
 export(marvinParser)
+export(pealignBwa)
 export(realignBwa)
+export(somaticStrelka2Manta)
 export(strelka2)

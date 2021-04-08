@@ -11,6 +11,7 @@ marvinParser(
   memory = "8G",
   email = "clusterigtpmsubirana@gmail.com",
   modules = NULL,
+  nodes = 1,
   script,
   tmp_sh,
   stdout,
@@ -29,6 +30,8 @@ marvinParser(
 \item{email}{Email where to send notifications. By default 'clusterigtpmsubirana@gmail.com'}
 
 \item{modules}{List of modules to load. Check the once that you need using module av command in Marvin.}
+
+\item{nodes}{Number of nodes}
 
 \item{script}{Script to run}
 
