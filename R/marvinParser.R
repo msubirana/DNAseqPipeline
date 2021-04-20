@@ -64,6 +64,7 @@ marvinParser <- function(job_name,
     load_modules <- paste('module load', modules, collapse = '\n')}
 
   cmd <- paste0('#!/bin/bash\n',
+                '#SBATCH --exclude=mr-03-[01-26],mr-03-28,mr-04-00',
                 '# Job name identification\n',
                 '#SBATCH -J ', job_name, '\n',
                 '# set the partition where the job will run\n',
