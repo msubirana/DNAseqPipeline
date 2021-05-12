@@ -27,8 +27,8 @@ somaticStrelka2Manta <- function(tumor_bam,
                                   conf_manta='configManta.py',
                                   call_regions='/gpfs42/robbyfs/scratch/lab_lpasquali/msubirana/ref/callRegions.bed.gz',
                                   conf_strelka2='configureStrelkaSomaticWorkflow.py'){
-  
-  
+
+
   manta(tumor_bam=tumor_bam,
         ctrl_bam=ctrl_bam,
         ref=ref,
@@ -36,11 +36,11 @@ somaticStrelka2Manta <- function(tumor_bam,
         cores=cores,
         conf_manta=conf_manta,
         call_regions=call_regions)
-  
+
   sample <- basename(sub('_TI.bam' ,'' , tumor_bam))
   out_manta <- file.path(out_dir_manta, sample)
   indel_candidates <- file.path(out_manta, 'results/variants/candidateSmallIndels.vcf.gz')
-  
+
   strelka2(tumor_bam,
            ctrl_bam,
            ref=ref,
@@ -68,7 +68,7 @@ manta <- function(tumor_bam,
                   cores,
                   conf_manta='configManta.py',
                   call_regions='/gpfs42/robbyfs/scratch/lab_lpasquali/msubirana/ref/callRegions.bed.gz'){
-  
+
   message(paste(
     paste0('\n[', Sys.time(), ']'),
     'Starting manta using:\n',
@@ -77,31 +77,31 @@ manta <- function(tumor_bam,
     '> Reference genome:', ref, '\n',
     '> Output directory:', out_dir_manta, '\n',
     '> Number of cores:', cores, '\n'))
-  
+
   sample <- basename(sub('_TI.bam' ,'' , tumor_bam))
-  
+
   # configuration
   out_manta <- file.path(out_dir_manta, sample)
-  
+
   # create output directory if not exist
   dir.create(out_manta, showWarnings = FALSE)
-  
+
   system(paste(conf_manta,
                "--normalBam", ctrl_bam,
                "--tumorBam", tumor_bam,
                "--referenceFasta", ref,
                "--runDir", out_manta))
-  
+
   # execution of job in the defined cores
   run_manta <- file.path(out_manta, 'runWorkflow.py')
-  
+
   system(paste(run_manta,
                '-m local',
                '-j', cores))
-  
+
   message(paste(
     paste0('\n[', Sys.time(), ']'),
-    'Finished', bam))
+    'Finished', sample))
 }
 #' strelka2
 #'
@@ -121,7 +121,7 @@ strelka2 <- function(tumor_bam,
                      conf_strelka2='configureStrelkaSomaticWorkflow.py',
                      indel_candidates,
                      call_regions='/gpfs42/projects/lab_lpasquali/shared_data/ref/callRegions.bed.gz'){
-  
+
   message(paste(
     paste0('\n[', Sys.time(), ']'),
     'Starting strelka2 using:\n',
@@ -131,14 +131,14 @@ strelka2 <- function(tumor_bam,
     '> Output directory:', out_dir_strelka2, '\n',
     '> Number of cores:', cores, '\n',
     '> Indel candidates:', indel_candidates, '\n'))
-  
+
   sample <- basename(sub('_TI.bam' ,'' , tumor_bam))
-  
+
   # configuration
   out_strelka2 <- file.path(out_dir_strelka2, sample)
   # create output directory if not exist
   dir.create(out_strelka2, showWarnings = FALSE)
-  
+
   system(paste(conf_strelka2,
                "--normalBam", ctrl_bam,
                "--tumorBam", tumor_bam,
@@ -146,15 +146,15 @@ strelka2 <- function(tumor_bam,
                "--runDir", out_strelka2,
                '--indelCandidates', indel_candidates,
                '--callRegions', call_regions))
-  
+
   # execution of job in the defined cores
   run_strelka2 <- file.path(out_strelka2, 'runWorkflow.py')
-  
+
   system(paste(run_strelka2,
                '-m local',
                '-j', cores))
-  
+
   message(paste(
     paste0('\n[', Sys.time(), ']'),
-    'Finished', bam))
+    'Finished', sample))
 }
