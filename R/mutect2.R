@@ -38,7 +38,7 @@ mutect2 <- function(ctrl_bam,
       '> Reference genome:', ref, '\n',
       '> Output vcf:', out_mutect2_path, '\n'))
 
-    system(paste(gatk4, '--java-options', paste0('"-XX:ParallelGCThreads=',cores*2,'"'),
+    system(paste(gatk4, '--java-options', paste0('"-XX:ParallelGCThreads=',as.numeric(cores)*2,'"'),
                  'Mutect2',
                  '-R', ref,
                  '-I', tumor_bam,
