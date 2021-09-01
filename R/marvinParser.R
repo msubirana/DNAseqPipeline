@@ -92,9 +92,9 @@ marvinParser <- function(job_name,
 
   system(paste('scp',
                tmp_sh,
-               'msubirana@marvin.s.upf.edu:/gpfs42/projects/lab_lpasquali/shared_data/marc/tmp/marvinParserScripts'))
+               'msubirana@marvin.s.upf.edu:/gpfs42/robbyfs/scratch/lab_lpasquali/msubirana/marc/tmp/marvinParserScripts'))
 
-  tmp_sh_marvin <- file.path('/gpfs42/projects/lab_lpasquali/shared_data/marc/tmp/marvinParserScripts', basename(tmp_sh))
+  tmp_sh_marvin <- file.path('/gpfs42/robbyfs/scratch/lab_lpasquali/msubirana/marc/tmp/marvinParserScripts', basename(tmp_sh))
 
   session <- ssh::ssh_connect('msubirana@marvin.s.upf.edu')
 
