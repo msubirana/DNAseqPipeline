@@ -28,7 +28,7 @@ mutect2 <- function(ctrl_bam,
     ctrl_bam_name <- unlist(strsplit(ctrl_bam_name, 'SM:'))[2]
 
     out_name <- gsub('_BL.bam', '', basename(ctrl_bam))
-    out_mutect2 <- file.path(out_mutect2_path, paste0(out_name, '.vcf.gz'))
+    out_mutect2 <- file.path(out_mutect2_path, paste0(out_name, '.vcf'))
 
     message(paste(
       paste0('\n[', Sys.time(), ']'),
