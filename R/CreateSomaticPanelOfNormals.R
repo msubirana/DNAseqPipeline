@@ -33,7 +33,7 @@ CreateSomaticPanelOfNormals <- function(ctrl_bam,
     '> Reference genome:', ref, '\n',
     '> Output vcf:', out_pon, '\n'))
 
-  system(paste(gatk, '--java-options', paste0('"-XX:ParallelGCThreads=',cores*2,'"'),
+  system(paste(gatk4, '--java-options', paste0('"-XX:ParallelGCThreads=',cores*2,'"'),
                'Mutect2',
                '-R', ref,
                '-I', ctrl_bam,
