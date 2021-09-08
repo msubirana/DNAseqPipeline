@@ -6,10 +6,12 @@ args <- base::commandArgs(trailingOnly = TRUE)
 
 #define variables
 ctrl_bam <- args[1]
-out_pon_path <- args[2]
-cores <- args[3]
+ctrl_bam_name <- args[2]
+out_pon_path <- args[3]
+cores <- args[4]
 
 #calling varianyts using DNAseqPipeline::somaticStrelka2Manta
 CreateSomaticPanelOfNormals(ctrl_bam=ctrl_bam,
+                            ctrl_bam_name=ctrl_bam_name,
                             out_pon_path=out_pon_path,
                             cores=cores)
