@@ -27,7 +27,7 @@ germlineStrelka2Manta <- function(bam,
                                   conf_strelka2='configureStrelkaGermlineWorkflow.py'){
 
 
-  manta(bam=bam,
+  manta_germline(bam=bam,
         ref=ref,
         out_dir_manta=out_dir_manta,
         cores=cores,
@@ -38,7 +38,7 @@ germlineStrelka2Manta <- function(bam,
   out_manta <- file.path(out_dir_manta, sample)
   indel_candidates <- file.path(out_manta, 'results/variants/candidateSmallIndels.vcf.gz')
 
-  strelka2(bam=bam,
+  strelka2_germline(bam=bam,
            ref=ref,
            out_dir_strelka2=out_dir_strelka2,
            cores=cores,
@@ -57,7 +57,7 @@ germlineStrelka2Manta <- function(bam,
 #' @examples
 #' \dontrun{}
 #' @export
-manta <- function(bam,
+manta_germline <- function(bam,
                   ref,
                   out_dir_manta,
                   cores,
@@ -107,7 +107,7 @@ manta <- function(bam,
 #' @examples
 #' \dontrun{}
 #' @export
-strelka2 <- function(bam,
+strelka2_germline <- function(bam,
                   ref,
                   out_dir_strelka2,
                   cores,
