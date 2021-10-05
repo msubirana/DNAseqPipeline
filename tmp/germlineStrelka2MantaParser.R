@@ -14,7 +14,7 @@ cores <- parallel::detectCores()/2
 
 
 #calling varianyts using DNAseqPipeline::germlineStrelka2Manta
-germlineStrelka2Manta(bam,
+germlineStrelka2Manta(bam=bam,
                       ref=ref,
                       cores=cores,
                       out_dir_manta=out_dir_manta,
