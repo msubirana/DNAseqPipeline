@@ -31,6 +31,7 @@ oncodriveclustlR <- function(inputFile,
     paste0('\n[', Sys.time(), ']'),
     'Starting OncodriveCLUSTL'))
   
+  dir.create(outputDirectory, showWarnings = FALSE)
   system('source activate oncodriveclustl')
   system(paste('oncodriveclustl',
                '-i', inputFile,
