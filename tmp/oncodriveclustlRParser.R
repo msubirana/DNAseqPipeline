@@ -15,7 +15,6 @@ smoothWindow <- args[6]
 clusterWindow <- args[7]
 simulationWindow <- args[8]
 kmer <- args[9]
-simulationWindow <- args[10]
 cores <- parallel::detectCores()/2
 
 
