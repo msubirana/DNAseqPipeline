@@ -15,7 +15,7 @@ smoothWindow <- args[6]
 clusterWindow <- args[7]
 simulationWindow <- args[8]
 kmer <- args[9]
-cores <- parallel::detectCores()/2
+cores <- cores[10]
 
 
 #calling varianyts using DNAseqPipeline::oncodriveclustlR
