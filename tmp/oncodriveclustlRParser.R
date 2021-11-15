@@ -1,5 +1,5 @@
 #load package
-devtools::load_all('/gpfs42/robbyfs/scratch/lab_lpasquali/msubirana/marc/repos/DNAseqPipeline')
+devtools::load_all('/gpfs42/robbyfs/scratch/lab_lpasquali/msubirana/repos/DNAseqPipeline')
 
 #parse arguments
 args <- base::commandArgs(trailingOnly = TRUE)
